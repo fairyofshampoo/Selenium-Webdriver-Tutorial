@@ -23,7 +23,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class GoogleSearchTest {
 	
 	private WebDriver driver;
-	By videoLinkLocator = By.cssSelector("a[href='https://youtube.com/watch?v=R_hh3jAqn8M']");
+	By videoLinkLocator = By.cssSelector("a[href='https://www.youtube.com/watch?v=R_hh3jAqn8M']");
 	
 	@Before
 	public void setUp() throws Exception {
@@ -34,38 +34,64 @@ public class GoogleSearchTest {
 	}
 
 	@Test
-	public void testGooglePage() {
+	public void testGooglePageImplicit() {
 		
 	    WebElement searchBox = driver.findElement(By.name("q"));
 		searchBox.clear();
 		searchBox.sendKeys("quality-stream Introducción a la Automatización de Pruebas de Software");
 		searchBox.submit();
 
-		//Descomentar el tipo de espera que se quiera ocupar tomando en cuenta que solo se puede uno a la vez.
-
 		//Implicit wait
-		//driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
+
+		assertEquals("quality-stream Introducción a la Automatización de Pruebas de Software - Buscar con Google",driver.getTitle());
+	}
+
+	@Test
+	public void testGooglePageExplicit() {
+
+		WebElement searchBox = driver.findElement(By.name("q"));
+		searchBox.clear();
+		searchBox.sendKeys("quality-stream Introducción a la Automatización de Pruebas de Software");
+		searchBox.submit();
+
+
 
 		//Explicit wait
-		/*WebDriverWait ewait = new WebDriverWait(driver, Duration.ofSeconds(10));
-		ewait.until(ExpectedConditions.titleContains("quality-stream"));*/
+		WebDriverWait ewait = new WebDriverWait(driver, 10);
+		ewait.until(ExpectedConditions.titleContains("quality-stream"));
+
+
+		assertEquals("quality-stream Introducción a la Automatización de Pruebas de Software - Buscar con Google",driver.getTitle());
+	}
+
+	@Test
+	public void testGooglePageFluent() {
+
+		WebElement searchBox = driver.findElement(By.name("q"));
+		searchBox.clear();
+		searchBox.sendKeys("quality-stream Introducción a la Automatización de Pruebas de Software");
+		searchBox.submit();
 
 		//Fluent Wait
-		/*Wait<WebDriver> fwait = new FluentWait<WebDriver>(driver)
+		Wait<WebDriver> fwait = new FluentWait<WebDriver>(driver)
 				.withTimeout(Duration.ofSeconds(10))
 				.pollingEvery(Duration.ofSeconds(2))
 				.ignoring(NoSuchElementException.class);
-
 		WebElement video = fwait.until(new Function<WebDriver, WebElement>() {
 			public WebElement apply(WebDriver driver) {
 				return driver.findElement(videoLinkLocator);
 			}
 
-		});*/
-		assertEquals("quality-stream Introducción a la Automatización de Pruebas de Software - Buscar con Google",driver.getTitle());
+		});
+
+		assertTrue(driver.findElement(videoLinkLocator).isDisplayed());
 	}
 
+
 	//Explicación de localizadores
+
 	/*@Test
 	public void localizadores() {
 		 
