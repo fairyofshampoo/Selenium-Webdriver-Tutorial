@@ -32,7 +32,7 @@ public class DataDrivenTesting_SWD_Test {
 
 	@After
 	public void tearDown() throws Exception {
-		// driver.quit();
+		driver.quit();
 	}
 
 	@Test

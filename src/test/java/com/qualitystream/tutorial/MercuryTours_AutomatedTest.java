@@ -16,26 +16,28 @@ public class MercuryTours_AutomatedTest {
 	
 	private WebDriver driver;
 	By registerLinkLocator = By.linkText("REGISTER");
-	By registerPageLocator = By.xpath("//img[@src='/images/masts/mast_register.gif']");
+	By registerPageLocator = By.xpath("//img[@src='images/mast_register.gif']");
 	
 	By usernameLocator = By.id("email");
 	By passwordLocator = By.name("password");
 	By confirmPassworLocator = By.cssSelector("input[name='confirmPassword']");
 
-	By registerBtnLocator = By.name("register");
+	By registerBtnLocator = By.name("submit");
 	
 	By userLocator = By.name("userName");
 	By passLocator = By.name("password");
-	By signInBtnLocator = By.name("login");
+	By signInBtnLocator = By.name("submit");
 	
-	By homePageLocator = By.xpath("//img[@src='/images/masts/mast_flightfinder.gif']");
+	By homePageLocator = By.xpath("//h3[text()='Login Successfully']");
+
+	By passwordFailedLocator = By.xpath("//*[contains(text(), 'Enter your userName and password correct')]");
 	
 	@Before
 	public void setUp() throws Exception {
 		System.setProperty("webdriver.chrome.driver", "./src/test/resources/chromedriver/chromedriver.exe");
 		driver = new ChromeDriver();
 		driver.manage().window().maximize();
-		driver.get("http://newtours.demoaut.com/mercurywelcome.php");
+		driver.get("https://demo.guru99.com/test/newtours/");
 	}
 
 	@After
@@ -44,11 +46,11 @@ public class MercuryTours_AutomatedTest {
 	}
 
 	@Test
-	public void registerUser() throws InterruptedException {
+	public void registerUserSuccessful() throws InterruptedException {
 		driver.findElement(registerLinkLocator).click();
 		Thread.sleep(2000);
 		if(driver.findElement(registerPageLocator).isDisplayed()) {
-			driver.findElement(usernameLocator).sendKeys("qualityadmin");
+			driver.findElement(usernameLocator).sendKeys("michelini19");
 			driver.findElement(passwordLocator).sendKeys("pass1");
 			driver.findElement(confirmPassworLocator).sendKeys("pass1");
 			
@@ -60,14 +62,14 @@ public class MercuryTours_AutomatedTest {
 		
 		List<WebElement> fonts = driver.findElements(By.tagName("font"));
 		
-		assertEquals("Note: Your user name is qualityadmin.",fonts.get(5).getText());
+		assertEquals("Note: Your user name is michelini19.",fonts.get(5).getText());
 		
 	}
 	
 	@Test
-	public void signIn() throws InterruptedException {
+	public void signInSuccessful() throws InterruptedException {
 		if(driver.findElement(userLocator).isDisplayed()){
-			driver.findElement(userLocator).sendKeys("qualityadmin");
+			driver.findElement(userLocator).sendKeys("michelini19");
 			driver.findElement(passLocator).sendKeys("pass1");
 			driver.findElement(signInBtnLocator).click();
 			Thread.sleep(2000);
@@ -76,6 +78,48 @@ public class MercuryTours_AutomatedTest {
 		else
 			System.out.println("username textbox was not present");
 		
+	}
+
+	@Test
+	public void signInPasswordFailed() throws InterruptedException {
+		if(driver.findElement(userLocator).isDisplayed()){
+			driver.findElement(userLocator).sendKeys("michelini19");
+			driver.findElement(passLocator).sendKeys("passwordWrong");
+			driver.findElement(signInBtnLocator).click();
+			Thread.sleep(2000);
+			assertTrue(driver.findElement(passwordFailedLocator).isDisplayed());
+		}
+		else
+			System.out.println("username textbox was not present");
+
+	}
+
+	@Test
+	public void signInUserFailed() throws InterruptedException {
+		if(driver.findElement(userLocator).isDisplayed()){
+			driver.findElement(userLocator).sendKeys("star33oy");
+			driver.findElement(passLocator).sendKeys("pass1");
+			driver.findElement(signInBtnLocator).click();
+			Thread.sleep(2000);
+			assertTrue(driver.findElement(passwordFailedLocator).isDisplayed());
+		}
+		else
+			System.out.println("username textbox was not present");
+
+	}
+
+	@Test
+	public void signInFailed() throws InterruptedException {
+		if(driver.findElement(userLocator).isDisplayed()){
+			driver.findElement(userLocator).sendKeys("star33oy");
+			driver.findElement(passLocator).sendKeys("passwordddWrong");
+			driver.findElement(signInBtnLocator).click();
+			Thread.sleep(2000);
+			assertTrue(driver.findElement(passwordFailedLocator).isDisplayed());
+		}
+		else
+			System.out.println("username textbox was not present");
+
 	}
 
 }
