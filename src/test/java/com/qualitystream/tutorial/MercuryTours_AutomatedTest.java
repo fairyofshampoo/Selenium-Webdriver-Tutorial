@@ -17,21 +17,21 @@ public class MercuryTours_AutomatedTest {
 	private WebDriver driver;
 	By registerLinkLocator = By.linkText("REGISTER");
 	By registerPageLocator = By.xpath("//img[@src='images/mast_register.gif']");
-	
+
 	By usernameLocator = By.id("email");
 	By passwordLocator = By.name("password");
-	By confirmPassworLocator = By.cssSelector("input[name='confirmPassword']");
+	By confirmPasswordLocator = By.cssSelector("input[name='confirmPassword']");
 
 	By registerBtnLocator = By.name("submit");
-	
+
 	By userLocator = By.name("userName");
 	By passLocator = By.name("password");
 	By signInBtnLocator = By.name("submit");
-	
+
 	By homePageLocator = By.xpath("//h3[text()='Login Successfully']");
 
 	By passwordFailedLocator = By.xpath("//*[contains(text(), 'Enter your userName and password correct')]");
-	
+
 	@Before
 	public void setUp() throws Exception {
 		System.setProperty("webdriver.chrome.driver", "./src/test/resources/chromedriver/chromedriver.exe");
@@ -52,7 +52,7 @@ public class MercuryTours_AutomatedTest {
 		if(driver.findElement(registerPageLocator).isDisplayed()) {
 			driver.findElement(usernameLocator).sendKeys("michelini19");
 			driver.findElement(passwordLocator).sendKeys("pass1");
-			driver.findElement(confirmPassworLocator).sendKeys("pass1");
+			driver.findElement(confirmPasswordLocator).sendKeys("pass1");
 			
 			driver.findElement(registerBtnLocator).click();
 		}
